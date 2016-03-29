@@ -37,7 +37,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                 AppComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this._observable = this.http.get(this._apiBase + 'random/8?escape=javascript')
-                        .retryWhen(function (err) { return err.delay(2000); })
+                        .retryWhen(function (err) { return err.delay(5000); })
                         .catch(function (error) {
                         // in a real world app, we may send the error to some remote logging infrastructure
                         // instead of just logging it to the console
@@ -48,13 +48,16 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                 };
                 AppComponent.prototype.insert = function (jokes) {
                     for (var i = 0; i < jokes.length; i++) {
-                        this.chucks.push(jokes[i]);
+                        this.chucks.unshift(jokes[i]);
                     }
                 };
-                AppComponent.prototype.loadMore = function () {
+                AppComponent.prototype.loadMore = function (container) {
                     var _this = this;
-                    this._observable
-                        .subscribe(function (jokes) { return _this.insert(jokes.json().value); });
+                    this.http.get(this._apiBase + 'random/2?escape=javascript')
+                        .subscribe(function (jokes) {
+                        _this.insert(jokes.json().value);
+                        window.scrollTo(0, 0);
+                    });
                 };
                 AppComponent.prototype.removeIt = function (evt) {
                     var id = this.chucks.findIndex(function (j) { return j == evt.joke; });
@@ -63,7 +66,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'chuck',
-                        template: "\n    <h1 class=\"ui center aligned header\">Chuck Norris and Cats \u2764\u2764</h1>\n    <div class=\"ui grid centered container\">\n    \t<div *ngIf=\"! chucks.length > 0\">\n\t\t\tLoading lists of Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" [arr_id]=\"index\" (onDislike)=\"removeIt($event)\"></joke>\n    \t\n    \t<button id=\"loadMoreBtn\" (click)=\"loadMore()\" class=\"ui labeled icon button\">\n\t      <i class=\"heart icon\"></i>\n\t      Load some more...\n\t    </button>\n    </div>",
+                        template: "\n    <h1 class=\"ui center aligned header\">Chuck Norris and Cats \u2764\u2764</h1>\n    <div class=\"ui grid centered container\" id=\"cont\" #container>\n    \t<div *ngIf=\"! chucks.length > 5\">\n\t\t\tLoading Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" [arr_id]=\"index\" (onDislike)=\"removeIt($event)\"></joke>\n    \t\n    \t<button id=\"loadMoreBtn\" (click)=\"loadMore(container)\" class=\"ui labeled icon button\">\n\t      <i class=\"heart icon\"></i>\n\t      Load some more...\n\t    </button>\n    </div>",
                         styles: ["#loadMoreBtn { position : fixed; bottom: 10px; left: 10px; opacity: 0.8; transition: all 0.5s;}\n    \t\t\t#loadMoreBtn:hover { opacity: 1}"],
                         providers: [http_2.Http, http_1.HTTP_PROVIDERS],
                         directives: [joke_component_1.JokeComponent]

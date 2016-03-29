@@ -8,13 +8,13 @@ import { JokeComponent } from './joke.component';
     selector: 'chuck',
     template: `
     <h1 class="ui center aligned header">Chuck Norris and Cats ❤❤</h1>
-    <div class="ui grid centered container">
-    	<div *ngIf="! chucks.length > 0">
-			Loading lists of Chuck Norris...
+    <div class="ui grid centered container" id="cont" #container>
+    	<div *ngIf="! chucks.length > 5">
+			Loading Chuck Norris...
     	</div>
     	<joke class="ui row" *ngFor="#chuck of chucks" [joke]="chuck" [arr_id]="index" (onDislike)="removeIt($event)"></joke>
     	
-    	<button id="loadMoreBtn" (click)="loadMore()" class="ui labeled icon button">
+    	<button id="loadMoreBtn" (click)="loadMore(container)" class="ui labeled icon button">
 	      <i class="heart icon"></i>
 	      Load some more...
 	    </button>
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit{
 
 	ngOnInit(){
 		this._observable = this.http.get(this._apiBase + 'random/8?escape=javascript')
-			.retryWhen(err => err.delay(2000))
+			.retryWhen(err => err.delay(5000))
 			.catch(function(error: Response) {
 				// in a real world app, we may send the error to some remote logging infrastructure
 				// instead of just logging it to the console
@@ -51,13 +51,16 @@ export class AppComponent implements OnInit{
 
 	insert(jokes: Array<Object>){
 		for (var i = 0; i < jokes.length; i++){
-			this.chucks.push(jokes[i]);
+			this.chucks.unshift(jokes[i]);
 		}
 	}
 
-	loadMore(){
-		this._observable
-			.subscribe(jokes => this.insert(jokes.json().value));
+	loadMore(container) {
+		this.http.get(this._apiBase + 'random/2?escape=javascript')
+			.subscribe(jokes => {
+				this.insert(jokes.json().value);
+				window.scrollTo(0, 0);
+			});		
 	}
 
 	removeIt(evt){
