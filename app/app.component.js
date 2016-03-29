@@ -61,9 +61,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                         providers: [http_2.Http, http_1.HTTP_PROVIDERS],
                         directives: [joke_component_1.JokeComponent]
                     }), 
-                    __metadata('design:paramtypes', [http_2.Http])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof http_2.Http !== 'undefined' && http_2.Http) === 'function' && _a) || Object])
                 ], AppComponent);
                 return AppComponent;
+                var _a;
             }());
             exports_1("AppComponent", AppComponent);
         }
