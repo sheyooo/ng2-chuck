@@ -17,7 +17,7 @@ import { Component, Input, Output, EventEmitter } from 'angular2/core';
 })
 export class JokeComponent{
 	@Input() joke: Object;
-	@Output() onLike: EventEmitter<Object>;
+	@Output() onLike = new EventEmitter;
 	private color = "white"
 
 	changeColor(color: string){

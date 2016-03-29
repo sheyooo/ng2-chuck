@@ -20,6 +20,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             JokeComponent = (function () {
                 function JokeComponent() {
+                    this.onLike = new core_1.EventEmitter;
                     this.color = "white";
                 }
                 JokeComponent.prototype.changeColor = function (color) {
@@ -34,7 +35,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 ], JokeComponent.prototype, "joke", void 0);
                 __decorate([
                     core_1.Output(), 
-                    __metadata('design:type', (typeof (_a = typeof core_1.EventEmitter !== 'undefined' && core_1.EventEmitter) === 'function' && _a) || Object)
+                    __metadata('design:type', Object)
                 ], JokeComponent.prototype, "onLike", void 0);
                 JokeComponent = __decorate([
                     core_1.Component({
@@ -45,7 +46,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     __metadata('design:paramtypes', [])
                 ], JokeComponent);
                 return JokeComponent;
-                var _a;
             }());
             exports_1("JokeComponent", JokeComponent);
         }
