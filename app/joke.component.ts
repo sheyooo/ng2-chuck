@@ -5,8 +5,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from 'angular2/core';
 	template: `
 	<div class="ui card {{color}}" [attr.id]="'chuck'+joke.id">		
 		<div class="ui two buttons">
-			<button #likeBtn (click)="like(likeBtn)" class="ui blue button">Like</button>
-			<button #dislikeBtn (click)="dislike(dislikeBtn)" class="ui grey button">Dislike</button>
+			<button #likeBtn (click)="like(likeBtn)" class="ui blue button">
+				<i class="heart icon"></i>
+				Like
+			</button>
+			<button #dislikeBtn (click)="dislike(dislikeBtn)" class="ui grey button">
+				<i class="trash icon"></i>
+				Dislike
+			</button>
 		</div>
 		<div class="image">
 			<img [src]="img" alt="Oh wooow~~~ :-|" />

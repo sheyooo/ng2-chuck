@@ -7,18 +7,20 @@ import { JokeComponent } from './joke.component';
 @Component({
     selector: 'chuck',
     template: `
-    <h1 class="ui center aligned header">CHuck JOkes</h1>
+    <h1 class="ui center aligned header">Chuck Norris and Cats ❤❤</h1>
     <div class="ui grid centered container">
     	<div *ngIf="! chucks.length > 0">
 			Loading lists of Chuck Norris...
     	</div>
     	<joke class="ui row" *ngFor="#chuck of chucks" [joke]="chuck" [arr_id]="index" (onDislike)="removeIt($event)"></joke>
-    	<button (click)="loadMore()" class="ui labeled icon button">
+    	
+    	<button id="loadMoreBtn" (click)="loadMore()" class="ui labeled icon button">
 	      <i class="heart icon"></i>
-	      Gimme some more Chuck and Cats
+	      Load some more...
 	    </button>
-    </div>
-    `,
+    </div>`,
+    styles: [`#loadMoreBtn { position : fixed; bottom: 10px; left: 10px; opacity: 0.8; transition: all 0.5s;}
+    			#loadMoreBtn:hover { opacity: 1}`],
     providers: [Http, HTTP_PROVIDERS],
     directives: [JokeComponent]
 })

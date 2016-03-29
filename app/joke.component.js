@@ -70,7 +70,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 JokeComponent = __decorate([
                     core_1.Component({
                         selector: 'joke',
-                        template: "\n\t<div class=\"ui card {{color}}\" [attr.id]=\"'chuck'+joke.id\">\t\t\n\t\t<div class=\"ui two buttons\">\n\t\t\t<button #likeBtn (click)=\"like(likeBtn)\" class=\"ui blue button\">Like</button>\n\t\t\t<button #dislikeBtn (click)=\"dislike(dislikeBtn)\" class=\"ui grey button\">Dislike</button>\n\t\t</div>\n\t\t<div class=\"image\">\n\t\t\t<img [src]=\"img\" alt=\"Oh wooow~~~ :-|\" />\n\t\t</div>\n\t\t<div class=\"content\">\n\t\t\t<h2>{{joke.joke}}</h2>\n\t\t</div>\n\t</div>",
+                        template: "\n\t<div class=\"ui card {{color}}\" [attr.id]=\"'chuck'+joke.id\">\t\t\n\t\t<div class=\"ui two buttons\">\n\t\t\t<button #likeBtn (click)=\"like(likeBtn)\" class=\"ui blue button\">\n\t\t\t\t<i class=\"heart icon\"></i>\n\t\t\t\tLike\n\t\t\t</button>\n\t\t\t<button #dislikeBtn (click)=\"dislike(dislikeBtn)\" class=\"ui grey button\">\n\t\t\t\t<i class=\"trash icon\"></i>\n\t\t\t\tDislike\n\t\t\t</button>\n\t\t</div>\n\t\t<div class=\"image\">\n\t\t\t<img [src]=\"img\" alt=\"Oh wooow~~~ :-|\" />\n\t\t</div>\n\t\t<div class=\"content\">\n\t\t\t<h2>{{joke.joke}}</h2>\n\t\t</div>\n\t</div>",
                         styles: ['h2 {font-weight: 100}']
                     }), 
                     __metadata('design:paramtypes', [])

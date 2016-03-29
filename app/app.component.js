@@ -63,7 +63,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'chuck',
-                        template: "\n    <h1 class=\"ui center aligned header\">CHuck JOkes</h1>\n    <div class=\"ui grid centered container\">\n    \t<div *ngIf=\"! chucks.length > 0\">\n\t\t\tLoading lists of Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" [arr_id]=\"index\" (onDislike)=\"removeIt($event)\"></joke>\n    \t<button (click)=\"loadMore()\" class=\"ui labeled icon button\">\n\t      <i class=\"heart icon\"></i>\n\t      Gimme some more Chuck and Cats\n\t    </button>\n    </div>\n    ",
+                        template: "\n    <h1 class=\"ui center aligned header\">Chuck Norris and Cats \u2764\u2764</h1>\n    <div class=\"ui grid centered container\">\n    \t<div *ngIf=\"! chucks.length > 0\">\n\t\t\tLoading lists of Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" [arr_id]=\"index\" (onDislike)=\"removeIt($event)\"></joke>\n    \t\n    \t<button id=\"loadMoreBtn\" (click)=\"loadMore()\" class=\"ui labeled icon button\">\n\t      <i class=\"heart icon\"></i>\n\t      Load some more...\n\t    </button>\n    </div>",
+                        styles: ["#loadMoreBtn { position : fixed; bottom: 10px; left: 10px; opacity: 0.8; transition: all 0.5s;}\n    \t\t\t#loadMoreBtn:hover { opacity: 1}"],
                         providers: [http_2.Http, http_1.HTTP_PROVIDERS],
                         directives: [joke_component_1.JokeComponent]
                     }), 
