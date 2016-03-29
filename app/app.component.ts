@@ -12,7 +12,11 @@ import { JokeComponent } from './joke.component';
     	<div *ngIf="! chucks.length > 0">
 			Loading lists of Chuck Norris...
     	</div>
-    	<joke class="ui row" *ngFor="#chuck of chucks" [joke]="chuck" (onLike)="changeIt($event)"></joke>
+    	<joke class="ui row" *ngFor="#chuck of chucks" [joke]="chuck" [arr_id]="index" (onDislike)="removeIt($event)"></joke>
+    	<button (click)="loadMore()" class="ui labeled icon button">
+	      <i class="heart icon"></i>
+	      Gimme some more Chuck and Cats
+	    </button>
     </div>
     `,
     providers: [Http, HTTP_PROVIDERS],
@@ -22,20 +26,23 @@ export class AppComponent implements OnInit{
 
 	private _apiBase = 'http://api.icndb.com/jokes/'
 	private chucks = []
+	private _observable;
+
 
 	constructor(private http: Http){}
 
 
 	ngOnInit(){
-		this.http.get(this._apiBase + 'random/8?escape=javascript')
+		this._observable = this.http.get(this._apiBase + 'random/8?escape=javascript')
 			.retryWhen(err => err.delay(2000))
-			.catch(function (error: Response) {
+			.catch(function(error: Response) {
 				// in a real world app, we may send the error to some remote logging infrastructure
 				// instead of just logging it to the console
 				console.error(error);
 				return Observable.throw(error.json().error || 'Server error');
-			})
-			.subscribe(
+			});
+
+		this._observable.subscribe(
 				jokes => this.insert(jokes.json().value)
 			);
 	}
@@ -46,8 +53,14 @@ export class AppComponent implements OnInit{
 		}
 	}
 
-	changeIt(evt){
-		console.log(evt)
+	loadMore(){
+		this._observable
+			.subscribe(jokes => this.insert(jokes.json().value));
+	}
+
+	removeIt(evt){
+		let id = this.chucks.findIndex(j => j == evt.joke);
+		this.chucks.splice(id, 1);
 	}
 
 }

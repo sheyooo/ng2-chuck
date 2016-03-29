@@ -21,12 +21,34 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             JokeComponent = (function () {
                 function JokeComponent() {
                     this.onLike = new core_1.EventEmitter;
+                    this.onDislike = new core_1.EventEmitter;
                     this.color = "white";
+                    this.img = "http://thecatapi.com/api/images/get?format=src&type=gif";
                 }
+                JokeComponent.prototype.ngOnInit = function () {
+                    this.img += "&v=" + Math.random();
+                };
                 JokeComponent.prototype.changeColor = function (color) {
                     this.color = color;
                     this.onLike.emit({
                         color: color
+                    });
+                };
+                JokeComponent.prototype.like = function (btn) {
+                    $(btn).transition('pulse', '200ms');
+                    this.color = "blue";
+                };
+                JokeComponent.prototype.dislike = function (btn) {
+                    var that = this;
+                    var func = function () {
+                        that.onDislike.emit({
+                            joke: that.joke
+                        });
+                    };
+                    $('#chuck' + this.joke.id)
+                        .transition({
+                        animation: 'fade right out',
+                        onComplete: func
                     });
                 };
                 __decorate([
@@ -34,14 +56,22 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     __metadata('design:type', Object)
                 ], JokeComponent.prototype, "joke", void 0);
                 __decorate([
+                    core_1.Input('arr_id'), 
+                    __metadata('design:type', Number)
+                ], JokeComponent.prototype, "idInArr", void 0);
+                __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
                 ], JokeComponent.prototype, "onLike", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], JokeComponent.prototype, "onDislike", void 0);
                 JokeComponent = __decorate([
                     core_1.Component({
                         selector: 'joke',
-                        template: "\n\t<div class=\"ui card {{color}}\">\t\t\n\t\t<div class=\"ui two buttons\">\n\t\t\t<button (click)=\"changeColor('red')\" class=\"ui blue button\">Like</button>\n\t\t\t<button (click)=\"changeColor('black')\" class=\"ui black button\">Dislike</button>\n\t\t</div>\n\t\t<p class=\"content\">\n\t\t\t{{joke.joke}}\n\t\t</p>\t\n\t</div>",
-                        styles: ["p {font-size: 20px}"]
+                        template: "\n\t<div class=\"ui card {{color}}\" [attr.id]=\"'chuck'+joke.id\">\t\t\n\t\t<div class=\"ui two buttons\">\n\t\t\t<button #likeBtn (click)=\"like(likeBtn)\" class=\"ui blue button\">Like</button>\n\t\t\t<button #dislikeBtn (click)=\"dislike(dislikeBtn)\" class=\"ui grey button\">Dislike</button>\n\t\t</div>\n\t\t<div class=\"image\">\n\t\t\t<img [src]=\"img\" alt=\"Oh wooow~~~ :-|\" />\n\t\t</div>\n\t\t<div class=\"content\">\n\t\t\t<h2>{{joke.joke}}</h2>\n\t\t</div>\n\t</div>",
+                        styles: ['h2 {font-weight: 100}']
                     }), 
                     __metadata('design:paramtypes', [])
                 ], JokeComponent);

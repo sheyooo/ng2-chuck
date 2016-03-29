@@ -36,28 +36,34 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
                 }
                 AppComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this.http.get(this._apiBase + 'random/8?escape=javascript')
+                    this._observable = this.http.get(this._apiBase + 'random/8?escape=javascript')
                         .retryWhen(function (err) { return err.delay(2000); })
                         .catch(function (error) {
                         // in a real world app, we may send the error to some remote logging infrastructure
                         // instead of just logging it to the console
                         console.error(error);
                         return Observable_1.Observable.throw(error.json().error || 'Server error');
-                    })
-                        .subscribe(function (jokes) { return _this.insert(jokes.json().value); });
+                    });
+                    this._observable.subscribe(function (jokes) { return _this.insert(jokes.json().value); });
                 };
                 AppComponent.prototype.insert = function (jokes) {
                     for (var i = 0; i < jokes.length; i++) {
                         this.chucks.push(jokes[i]);
                     }
                 };
-                AppComponent.prototype.changeIt = function (evt) {
-                    console.log(evt);
+                AppComponent.prototype.loadMore = function () {
+                    var _this = this;
+                    this._observable
+                        .subscribe(function (jokes) { return _this.insert(jokes.json().value); });
+                };
+                AppComponent.prototype.removeIt = function (evt) {
+                    var id = this.chucks.findIndex(function (j) { return j == evt.joke; });
+                    this.chucks.splice(id, 1);
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'chuck',
-                        template: "\n    <h1 class=\"ui center aligned header\">CHuck JOkes</h1>\n    <div class=\"ui grid centered container\">\n    \t<div *ngIf=\"! chucks.length > 0\">\n\t\t\tLoading lists of Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" (onLike)=\"changeIt($event)\"></joke>\n    </div>\n    ",
+                        template: "\n    <h1 class=\"ui center aligned header\">CHuck JOkes</h1>\n    <div class=\"ui grid centered container\">\n    \t<div *ngIf=\"! chucks.length > 0\">\n\t\t\tLoading lists of Chuck Norris...\n    \t</div>\n    \t<joke class=\"ui row\" *ngFor=\"#chuck of chucks\" [joke]=\"chuck\" [arr_id]=\"index\" (onDislike)=\"removeIt($event)\"></joke>\n    \t<button (click)=\"loadMore()\" class=\"ui labeled icon button\">\n\t      <i class=\"heart icon\"></i>\n\t      Gimme some more Chuck and Cats\n\t    </button>\n    </div>\n    ",
                         providers: [http_2.Http, http_1.HTTP_PROVIDERS],
                         directives: [joke_component_1.JokeComponent]
                     }), 

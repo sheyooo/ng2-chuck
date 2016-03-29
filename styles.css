@@ -1,9 +1,3 @@
 body{
 	background: #fafafa;
 }
-
-cell{
-	border: solid 2px #777;
-	height: 100px;
-	width: 100px;
-}
