@@ -31,7 +31,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', './joke.co
             AppComponent = (function () {
                 function AppComponent(http) {
                     this.http = http;
-                    this._apiBase = 'http://api.icndb.com/jokes/';
+                    this._apiBase = 'https://api.icndb.com/jokes/';
                     this.chucks = [];
                 }
                 AppComponent.prototype.ngOnInit = function () {
