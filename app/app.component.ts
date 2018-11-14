@@ -26,7 +26,7 @@ import { JokeComponent } from './joke.component';
 })
 export class AppComponent implements OnInit{
 
-	private _apiBase = 'http://api.icndb.com/jokes/'
+	private _apiBase = 'https://api.icndb.com/jokes/'
 	private chucks = []
 	private _observable;
 
